@@ -119,9 +119,9 @@ void Graph::algo(std::vector<std::vector<int>> ad_list) {
 
 }
 
-int Graph::find_better_price()
+double Graph::find_better_price()
 {
-    int total_price = 0;
+    double total_price = 0;
     this->change_nodes();
     this->sort_by_price();
     std::vector<node> unique;
@@ -133,10 +133,13 @@ int Graph::find_better_price()
     {
         for(int j = 0; j<unique.size(); j++)
         {
-            if(unique[j].arrival_station == this->price_path[i] &&
-               unique[j].departure_station == this->price_path[i+1])
+            if(unique[j].arrival_station == this->price_path[i+1] &&
+               unique[j].departure_station == this->price_path[i]) {
                 total_price += unique[j].price;
+                this->price_path_trains.insert(this->price_path_trains.end(), unique[j]);
+            }
         }
+
     }
 
 
