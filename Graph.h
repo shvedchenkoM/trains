@@ -26,7 +26,6 @@ class Graph {
 
 public:
     Graph();
-
     std::vector<Vertex> vertexes;
     void sort_by_price();
     int size;
@@ -37,8 +36,11 @@ public:
     void change_nodes();
     std::vector<std::vector<int>> ad_list(std::vector<node> unique);
     double find_better_price();
-    void algo(std::vector<std::vector<int>> ad_list);
+    void algo_price(std::vector<std::vector<int>> ad_list);
     void DFS(int v, bool visited[], std::vector<std::vector<int>> ad_list);
+
+    int algo_time(int v);
+    int amount_seconds(std::string time1);
 
 
 ~Graph();
