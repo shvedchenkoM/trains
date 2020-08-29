@@ -66,25 +66,6 @@ void Graph::change_nodes() {
     }
 }
 
-int Graph::find_better_price()
-{
-    //sort
-    this->sort_by_price();
-    //leave only vertises with lawest price
-    std::vector<node> unique_array;
-    unique_array = unique_edges(this->edges);
-    //std::vector<std::pair<int, int>> arr;
-    //arr = pairs(unique_array);
-    //make spisok of smezhnost
-    //replaceE(unique_array, arr);
-
-
-
-    return 1;
-
-    //do backtracking
-}
-
 std::vector<std::vector<int>> Graph::ad_list(std::vector<node> unique) {
 
     std::vector<std::vector<int>> ad_list;
@@ -101,26 +82,66 @@ std::vector<std::vector<int>> Graph::ad_list(std::vector<node> unique) {
     return ad_list;
 }
 
-void DFS(int v, bool visited[], std::vector<std::vector<int>> ad_list)
+void Graph::DFS(int v, bool visited[], std::vector<std::vector<int>> ad_list)
 {
+    int flag = 0;
     visited[v] = true;
-    std::cout<<v<<std::endl;
+    this->price_path.insert(this->price_path.end(), v);
+
     for(int i = 0; i< ad_list[v].size(); i++)
     {
         if(visited[ad_list[v][i]] == false)
         {
+            flag++;
             DFS(ad_list[v][i], visited, ad_list);
         }
     }
+
 }
 
 void Graph::algo(std::vector<std::vector<int>> ad_list) {
-    bool visited[6];
+
+    bool *visited = new bool[6];
+    for (int i = 0; i < 6; i++)
+        visited[i] = false;
+
     for(int i = 0; i<6; i++)
     {
         visited[i] = false;
     }
-    DFS(2, visited, ad_list);
+    DFS(1, visited, ad_list);
+
+    for(int i = 0; i<this->price_path.size(); i++)
+    {
+        std::cout << this->price_path[i]<<" ";
+    }
+    std::cout<<std::endl;
+
+}
+
+int Graph::find_better_price()
+{
+    int total_price = 0;
+    this->change_nodes();
+    this->sort_by_price();
+    std::vector<node> unique;
+    unique = this->unique_edges(this->edges);
+    std::vector<std::vector<int>> ad_list;
+    ad_list = this->ad_list(unique);
+    this->algo(ad_list);
+    for(int i = 0; i<this->price_path.size() - 1; i++)
+    {
+        for(int j = 0; j<unique.size(); j++)
+        {
+            if(unique[j].arrival_station == this->price_path[i] &&
+               unique[j].departure_station == this->price_path[i+1])
+                total_price += unique[j].price;
+        }
+    }
 
 
+
+    return total_price;
+
+    //do backtracking
 }

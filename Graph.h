@@ -32,10 +32,13 @@ public:
     int size;
     std::vector<node> edges;
     std::vector<node> unique_edges(std::vector<node> edges);
+    std::vector<int> price_path;
     void change_nodes();
     std::vector<std::vector<int>> ad_list(std::vector<node> unique);
     int find_better_price();
     void algo(std::vector<std::vector<int>> ad_list);
+    void DFS(int v, bool visited[], std::vector<std::vector<int>> ad_list);//need being improved cause something strange, he doesn't understan that there ane no connection
+
 
 ~Graph();
 
