@@ -29,7 +29,7 @@ public:
 
     std::vector<Vertex> vertexes;
     void sort_by_price();
-    const int size;
+    int size;
     std::vector<node> edges;
     std::vector<node> unique_edges(std::vector<node> edges);
     void change_nodes();

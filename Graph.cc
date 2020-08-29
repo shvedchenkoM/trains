@@ -104,6 +104,7 @@ std::vector<std::vector<int>> Graph::ad_list(std::vector<node> unique) {
 void DFS(int v, bool visited[], std::vector<std::vector<int>> ad_list)
 {
     visited[v] = true;
+    std::cout<<v<<std::endl;
     for(int i = 0; i< ad_list[v].size(); i++)
     {
         if(visited[ad_list[v][i]] == false)
