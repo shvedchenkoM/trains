@@ -1,7 +1,3 @@
-//
-// Created by maria on 28.08.20.
-//
-
 #include "Vertex.h"
 
 Vertex::Vertex(int name, int index) {

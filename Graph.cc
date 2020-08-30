@@ -1,7 +1,3 @@
-//
-// Created by maria on 27.08.20.
-//
-
 #include <sstream>
 #include "Graph.h"
 
@@ -126,12 +122,6 @@ void Graph::algo_price(std::vector<std::vector<int>> ad_list) {
     }
     DFS(1, visited, ad_list);
 
-    for(int i = 0; i<this->price_path.size(); i++)
-    {
-        std::cout << this->price_path[i]<<" ";
-    }
-    std::cout<<std::endl;
-
 }
 
 answer_price Graph::find_better_price()
@@ -158,7 +148,6 @@ answer_price Graph::find_better_price()
 
     }
 
-
     ans.price = total_price;
     ans.path = this->price_path_trains;
 
@@ -173,6 +162,21 @@ int Graph::amount_seconds(std::string time1) {
     ss1 = 3600 * atoi(arr1[0].c_str()) + 60 * atoi(arr1[1].c_str()) + atoi(arr1[2].c_str());
     return ss1;
 }
+
+int differ_sec(int ss1, int ss2)
+{
+    int time;
+    if (ss2 >= ss1)
+    {
+        time = ss2 - ss1;
+    }
+    else
+    {
+        time = 24*3600 - ss1 + ss2;
+    }
+    return time;
+}
+
 
 //return seconds
 answer_time Graph::algo_time_util(int v)
@@ -190,7 +194,7 @@ answer_time Graph::algo_time_util(int v)
     this->change_nodes();
     std::vector<node> path;
 
-    int ss1, ss2, time;
+    int ss1, ss2, ss3, time;
     while(std::any_of(visited.begin(), visited.end(), [](bool i){return !i;} ))
     {
         int miin_time = 10000001;
@@ -206,9 +210,9 @@ answer_time Graph::algo_time_util(int v)
                         ss1 = amount_seconds(this->edges[i].departure_time);
                     } else
                     ss1 = amount_seconds(path[path.size()-1].arrival_time);
-                    ss2 = amount_seconds(this->edges[i].arrival_time);
-                    if(ss2 >= ss1) time = ss2 - ss1;
-                    else time = 24*3600 - ss1 + ss2;
+                    ss2 = amount_seconds(this->edges[i].departure_time);
+                    ss3 = amount_seconds(this->edges[i].arrival_time);
+                    time = differ_sec(ss2, ss3) + differ_sec(ss1, ss2);
                     if (time < miin_time) {
                         miin_time = time;
                         curr_node = this->edges[i];
@@ -221,7 +225,12 @@ answer_time Graph::algo_time_util(int v)
             path.insert(path.end(), curr_node);
             v = curr_node.arrival_station;
             total_time += miin_time;
-        }
+        } else
+            {
+            total_time = 100000001;
+            path.empty();
+            break;
+            }
 
     }
 

@@ -1,10 +1,4 @@
-//
-// Created by maria on 28.08.20.
-//
-
-#ifndef TRAINS_VERTEX_H
-#define TRAINS_VERTEX_H
-
+#pragma once
 
 class Vertex {
 public:
@@ -17,4 +11,4 @@ public:
 };
 
 
-#endif //TRAINS_VERTEX_H
+

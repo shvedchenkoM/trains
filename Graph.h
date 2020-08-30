@@ -1,15 +1,10 @@
-//
-// Created by maria on 27.08.20.
-//
+#pragma once
 #include <iostream>
 #include <stdio.h>
 #include <vector>
 #include <set>
 #include <algorithm>
 #include "Vertex.h"
-
-#ifndef TRAINS_GRAPH_H
-#define TRAINS_GRAPH_H
 
 
 struct node
@@ -61,4 +56,4 @@ public:
 };
 
 
-#endif //TRAINS_GRAPH_H
+
