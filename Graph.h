@@ -22,6 +22,18 @@ struct node
     std::string arrival_time;
 };
 
+struct answer_time
+{
+    int time;
+    std::vector<node> path;
+};
+
+struct answer_price
+{
+    double price;
+    std::vector<node> path;
+};
+
 class Graph {
 
 public:
@@ -35,12 +47,13 @@ public:
     std::vector<node> price_path_trains;
     void change_nodes();
     std::vector<std::vector<int>> ad_list(std::vector<node> unique);
-    double find_better_price();
+    answer_price find_better_price();
     void algo_price(std::vector<std::vector<int>> ad_list);
     void DFS(int v, bool visited[], std::vector<std::vector<int>> ad_list);
 
-    int algo_time(int v);
+    answer_time algo_time_util(int v);
     int amount_seconds(std::string time1);
+    answer_time find_better_time();
 
 
 ~Graph();

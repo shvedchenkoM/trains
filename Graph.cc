@@ -134,8 +134,9 @@ void Graph::algo_price(std::vector<std::vector<int>> ad_list) {
 
 }
 
-double Graph::find_better_price()
+answer_price Graph::find_better_price()
 {
+    answer_price ans;
     double total_price = 0;
     this->change_nodes();
     this->sort_by_price();
@@ -158,10 +159,11 @@ double Graph::find_better_price()
     }
 
 
+    ans.price = total_price;
+    ans.path = this->price_path_trains;
 
-    return total_price;
+    return ans;
 
-    //do backtracking
 }
 
 int Graph::amount_seconds(std::string time1) {
@@ -173,12 +175,14 @@ int Graph::amount_seconds(std::string time1) {
 }
 
 //return seconds
-int Graph::algo_time(int v)
+answer_time Graph::algo_time_util(int v)
 {
-    bool visited[6];
-    for(int i = 0; i < 6; i++)
+    answer_time ans;
+    std::vector<bool> visited;
+    for(int i = 0; i < this->vertexes.size(); i++)
     {
-        visited[i] = false;
+        visited.insert(visited.end(), false);
+
     }
     visited[v] = true;
 
@@ -187,13 +191,7 @@ int Graph::algo_time(int v)
     std::vector<node> path;
 
     int ss1, ss2, time;
-    while(
-            visited[0] == true &&
-            visited[1] == true &&
-            visited[2] == true &&
-            visited[3] == true &&
-            visited[4] == true &&
-            visited[5] == true)
+    while(std::any_of(visited.begin(), visited.end(), [](bool i){return !i;} ))
     {
         int miin_time = 10000001;
         node curr_node;
@@ -224,10 +222,30 @@ int Graph::algo_time(int v)
             v = curr_node.arrival_station;
             total_time += miin_time;
         }
+
     }
 
- return total_time;
+    ans.time = total_time;
+    ans.path = path;
+ return ans;
 
+}
+
+answer_time Graph::find_better_time() {
+    answer_time result;
+    result.time = 999999;
+    int time;
+    for(int i = 0; i<this->vertexes.size(); i++)
+    {
+        time = this->algo_time_util(i).time;
+        if(time < result.time)
+        {
+            result.time = time;
+            result.path = this->algo_time_util(i).path;
+        }
+    }
+
+    return result;
 }
 
 
